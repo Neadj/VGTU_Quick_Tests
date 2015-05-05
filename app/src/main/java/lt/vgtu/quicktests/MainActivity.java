@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import org.apache.http.HttpEntity;
@@ -52,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         HttpGet request = new HttpGet();
         request.setURI(uri);
         HttpResponse response;
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<Test> list = new ArrayList<Test>();
         try {
             StrictMode.ThreadPolicy policy = new
                     StrictMode.ThreadPolicy.Builder()
@@ -67,7 +68,8 @@ public class MainActivity extends ActionBarActivity {
             JSONArray Jo = new JSONArray(text);
             for (int i = 0; i < Jo.length(); i++) {
                 JSONObject j = Jo.getJSONObject(i);
-                list.add(j.getString("title"));
+                Test t = new Test(j.getString("title"), j.getString("subject"), j.getString("teacher"), null);
+                list.add(t);
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -76,9 +78,9 @@ public class MainActivity extends ActionBarActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Spinner sp = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> ar = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        sp.setAdapter(ar);
+        ListView lv = (ListView) findViewById(R.id.listView);
+        TestAdapter ar = new TestAdapter(list, this);
+        lv.setAdapter(ar);
     }
 
 

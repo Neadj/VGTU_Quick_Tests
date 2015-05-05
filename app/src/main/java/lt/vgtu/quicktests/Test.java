@@ -1,5 +1,10 @@
 package lt.vgtu.quicktests;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,19 +17,25 @@ public class Test {
     private String teacher;
     private List<Question> questions;
 
-    public Test(String title, String nameClass, String teacher, List<Question> questions) {
+    public Test(String title, String nameClass, String teacher, JSONArray questions) {
         this.title = title;
         this.nameClass = nameClass;
         this.teacher = teacher;
-        this.questions = questions;
-    }
-
-    public String getTitle() {
-        return title;
+        this.questions = new LinkedList<Question>();
+        for(int i = 0; i < questions.length(); i++)
+            try {
+                this.questions.add(new Question(questions.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
     }
 
     public String getNameClass() {
         return nameClass;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getTeacher() {

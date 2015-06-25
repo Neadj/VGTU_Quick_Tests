@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         URI uri = null;
         try {
-            uri = new URI("http://158.129.237.185:8080/rest/user/");
+            uri = new URI("http://10.0.2.2:8080/rest/test/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
